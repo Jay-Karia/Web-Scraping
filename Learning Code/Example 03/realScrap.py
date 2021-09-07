@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import time
 
 print('Put some skills you are not familiar with')
 unfamiliar_skills = input('>')
