@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-import xlsxwriter
+import csv
 
 
 print("Enter the name of the person on GitHub")
@@ -14,7 +14,7 @@ soup = BeautifulSoup(html, 'html.parser')
 try:
     repos = soup.find('div', id='user-repositories-list')
 
-    repo = repos.find_all(itemprop='name codeRepository')
+    repo_name = repos.find_all(itemprop='name codeRepository')
 
     lang = repos.find_all(itemprop='programmingLanguage')
 
@@ -27,5 +27,3 @@ try:
     description = repos.find_all('p', class_='col-9 d-inline-block color-text-secondary mb-2 pr-4') 
 except:
     print("\nAn error ocurred while retriving the data. Sorry!")
-
-# Writing into excel file
