@@ -1,24 +1,31 @@
 from bs4 import BeautifulSoup
 import requests
+import xlsxwriter
 
-link = 'https://github.com/Jay-Karia?tab=repositories'
+
+print("Enter the name of the person on GitHub")
+person_name = input()
+
+link = f'https://github.com/{person_name}?tab=repositories'
+print(link)
 html = requests.get(link).text
 soup = BeautifulSoup(html, 'html.parser')
 
-repos = soup.find('div', id='user-repositories-list')
+try:
+    repos = soup.find('div', id='user-repositories-list')
 
-# for repo in repos.find_all(itemprop='name codeRepository'):
-#     print(repo.get_text().replace(' ', ''))
+    repo = repos.find_all(itemprop='name codeRepository')
 
-# for lang in repos.find_all(itemprop='programmingLanguage'):
-#     print(lang.get_text().replace(' ', ''))
+    lang = repos.find_all(itemprop='programmingLanguage')
 
-# for update in repos.find_all('relative-time', class_='no-wrap'):
-#     print(update.get_text().replace(' ', ''))
+    update = repos.find_all('relative-time', class_='no-wrap')
 
-for stars in repos.find_all('a', class_='mr-3'):
-    if stars == '\n\n\n\n':
-        stars = 0
-    print(stars.get_text().replace(' ', ''))
+    stars = repos.find_all('a', class_='mr-3')
 
-# visibility = repos.find_all()
+    visibility = repos.find_all('span', class_='Label')
+
+    description = repos.find_all('p', class_='col-9 d-inline-block color-text-secondary mb-2 pr-4') 
+except:
+    print("\nAn error ocurred while retriving the data. Sorry!")
+
+# Writing into excel file
