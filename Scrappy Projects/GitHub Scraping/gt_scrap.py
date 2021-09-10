@@ -36,15 +36,15 @@ for repos in soup.find_all('div', id="user-repositories-list"):
         language = repos.find(itemprop='programmingLanguage')
         lang = language.get_text().strip()
         print(lang)
-    except AttributeError:
+    except:
         print("None")
 
     try:
         s = repos.find('a', class_='Link--muted mr-3')
-        stars = s.get_text().strip()
+        stars = s.get_text().strip()[0]
         print(stars)
     except:
-        print("None")
+        print("0")
 
     try:
         d = repos.find('p', class_='col-9 d-inline-block color-text-secondary mb-2 pr-4')
