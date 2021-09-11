@@ -11,10 +11,10 @@ print(link)
 html = requests.get(link).text
 soup = BeautifulSoup(html, 'html.parser')
 
-# file = open(f'{person_name}-info.csv', 'a')
-# csvWriter = csv.writer(file)
+file = open(f'{person_name}-info.csv', 'a')
+csvWriter = csv.writer(file)
 
-# csvWriter.writerow(["Sr No.", "Repo Name"])
+csvWriter.writerow(["Sr No.", "Repo Name"])
 
 def get_repo_name(soup):
     try:
