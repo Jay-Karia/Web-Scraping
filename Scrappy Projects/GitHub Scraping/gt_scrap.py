@@ -11,31 +11,50 @@ print(link)
 html = requests.get(link).text
 soup = BeautifulSoup(html, 'html.parser')
 
-file = open(f'{person_name}-info.csv', 'a')
-csvWriter = csv.writer(file)
+file = open(f'{person_name}-info.csv', 'w')
+writer = csv.writer(file)
 
-csvWriter.writerow(["Sr No.", "Repo Name"])
+writer.writerow(["Sr no.", "Developer Name", "Repo Name", "Repo URL", "Language", "Last Updated", "Stars", "Visibility", "Description"])
 
-def get_repo_name(soup):
-    try:
-        repo = soup.find_all('a', itemprop='name codeRepository')
-        print()
-        for index, repo in enumerate(repo):
-            index = index + 1
-            repository = repo.get_text().strip()
-            csvWriter.writerow([index, repository])
-        print("File Saved Successfully!")
-    except:
-        print("An unexpected Error Occurred, Sorry!")
+try:
+    userRepoDiv = soup.find('div', id='user-repositories-list')
+    userRepoList = userRepoDiv.find_all('li', class_='col-12 d-flex width-full py-4 border-bottom color-border-secondary public source')
 
-def get_repo_url(soup):
-    repo_url = soup.find_all('a', itemprop='name codeRepository')['href']
-    print()
-    for index, url in enumerate(repo_url):
+    for index, repo in enumerate(userRepoList):
         index = index + 1
-        print(url['href'])
+        repo_name = repo.find('a', itemprop='name codeRepository')
+        name = repo_name.get_text().strip()
+        repo_url = repo.find('a', itemprop='name codeRepository')['href']
+        url = f'https://github.com//{repo_url}'
+        u = repo.find('relative-time', class_='no-wrap')
+        update = u.get_text().strip()
+        v = repo.find('span', class_='Label')
+        visibility = v.get_text().strip()
 
-# get_repo_name(soup)
-get_repo_url(soup)
+        lang = None
+        stars = None
+        description = None
+        try:
+            language = repo.find(itemprop='programmingLanguage')
+            lang = language.get_text().strip()
+        except:
+            lang = None
 
-# file.close()
+        try:
+            s = repo.find('a', class_='Link--muted mr-3')
+            stars = s.get_text().strip()[0]
+        except:
+            stars = 0
+
+        try:
+            d = repo.find('p', class_='col-9 d-inline-block color-text-secondary mb-2 pr-4')
+            description = d.get_text().strip()
+        except:
+            description = None
+
+        writer.writerow([index, person_name, name, url, lang, update, stars, visibility, description])
+    print("\nFile Successfully Saved!!")
+except:
+    print("\nAn error occurred while retrieving the data. Sorry!")
+
+file.close()
