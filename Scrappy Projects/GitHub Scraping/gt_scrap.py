@@ -38,23 +38,25 @@ try:
             language = repo.find(itemprop='programmingLanguage')
             lang = language.get_text().strip()
         except:
-            lang = None
+            lang = "None"
 
         try:
             s = repo.find('a', class_='Link--muted mr-3')
             stars = s.get_text().strip()[0]
         except:
-            stars = 0
+            stars = "0"
 
         try:
             d = repo.find('p', class_='col-9 d-inline-block color-text-secondary mb-2 pr-4')
             description = d.get_text().strip()
         except:
-            description = None
+            description = "None"
 
-        writer.writerow([index, person_name, name, url, lang, update, stars, visibility, description])
+        writer.writerow([index, person_name, name.encode('utf-8'), url, lang.encode('utf-8'), update.encode('utf-8'), stars.encode('utf-8'), visibility.encode('utf-8'), description.encode('utf-8')])
+
     print("\nFile Successfully Saved!!")
 except:
+    # print("Sorry!!!!")
     print("\nAn error occurred while retrieving the data. Sorry!")
 
 file.close()
