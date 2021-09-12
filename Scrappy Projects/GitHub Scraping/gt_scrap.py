@@ -22,8 +22,8 @@ try:
 
     for index, repo in enumerate(userRepoList):
         index = index + 1
-        repo_name = repo.find('a', itemprop='name codeRepository')
-        name = repo_name.get_text().strip()
+        name = repo.find('a', itemprop='name codeRepository')
+        repo_name = name.get_text().strip()
         repo_url = repo.find('a', itemprop='name codeRepository')['href']
         url = f'https://github.com//{repo_url}'
         u = repo.find('relative-time', class_='no-wrap')
@@ -52,11 +52,22 @@ try:
         except:
             description = "None"
 
-        writer.writerow([index, person_name, name.encode('utf-8'), url, lang.encode('utf-8'), update.encode('utf-8'), stars.encode('utf-8'), visibility.encode('utf-8'), description.encode('utf-8')])
+
+        # try:
+        writeStar = stars.encode('utf-8').decode('utf-8')
+        writeLang = lang.encode('utf-8').decode('utf-8')
+        writeDesc = description.encode('utf-8').decode('utf-8')
+        # except:
+        #     writeLang = "None"
+        #     writeStar = "None"
+        #     writeDesc = "None"
+        writeP = [index, person_name, repo_name, url, writeLang, update, writeLang, visibility, writeDesc]
+        # writer.writerow(writeP)
+        print(writeP)
+
 
     print("\nFile Successfully Saved!!")
 except:
-    # print("Sorry!!!!")
     print("\nAn error occurred while retrieving the data. Sorry!")
 
 file.close()
