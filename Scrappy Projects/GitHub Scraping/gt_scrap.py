@@ -11,7 +11,7 @@ print(link)
 html = requests.get(link).text
 soup = BeautifulSoup(html, 'html.parser')
 
-file = open(f'{person_name}-info.csv', 'w')
+file = open(f'{person_name}-info.csv', 'w', encoding='utf-8')
 writer = csv.writer(file)
 
 writer.writerow(["Sr no.", "Developer Name", "Repo Name", "Repo URL", "Language", "Last Updated", "Stars", "Visibility", "Description"])
@@ -52,18 +52,9 @@ try:
         except:
             description = "None"
 
+        writeP = [index, person_name, repo_name, url, lang, update, stars, visibility, description]
 
-        # try:
-        writeStar = stars.encode('utf-8').decode('utf-8')
-        writeLang = lang.encode('utf-8').decode('utf-8')
-        writeDesc = description.encode('utf-8').decode('utf-8')
-        # except:
-        #     writeLang = "None"
-        #     writeStar = "None"
-        #     writeDesc = "None"
-        writeP = [index, person_name, repo_name, url, writeLang, update, writeLang, visibility, writeDesc]
-        # writer.writerow(writeP)
-        print(writeP)
+        writer.writerow(writeP)
 
 
     print("\nFile Successfully Saved!!")
