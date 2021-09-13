@@ -1,0 +1,62 @@
+# importing required modules
+from bs4 import BeautifulSoup
+import requests
+import csv
+
+# Getting the product
+print("Enter a product name")
+product_name = input()
+
+# Getting the page
+headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
+
+url = f'https://www.amazon.in/s?k={product_name}&ref=nb_sb_noss_2'
+
+source = requests.get(url, headers = headers).text
+soup = BeautifulSoup(source, 'lxml')
+
+# Getting the closer html
+Div = soup.find('div', class_='s-main-slot s-result-list s-search-results sg-row')
+Lists = Div.find_all('div', {'class': 's-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 AdHolder sg-col sg-col-12-of-16'})
+
+# Writing into csv
+file = open(f'{product_name}-info.csv', 'w', encoding='UTF-8')
+writer = csv.writer(file)
+writer.writerow(["Sr. No.", "Product Type", "Product Name", "Stars", "Price"])
+
+# Setting up writing variables
+writeProduct = []
+writeStars = []
+writePrice = []
+
+# Getting the information
+# try:
+for index, products in enumerate(Lists):
+    index = index + 1
+    # Getting the title
+    n = products.find('a', class_='a-link-normal a-text-normal')
+    names = n.text
+    writeProduct.append(names.strip())
+
+    # Getting the ratings
+    try:
+        s = products.find('div', class_='a-row a-size-small')
+        stars = s.find('span')['aria-label'].split('out of')[0]
+        writeStars.append(stars)
+    except:
+        stars = "None"
+
+    # Getting the price
+    try:
+        price = products.find('span', class_='a-price-whole').get_text().strip()
+    except:
+        price = "None"
+
+    writer.writerow([index, product_name, names, stars, price])
+
+
+print("File Saved Successfully!")
+# except:
+#     print("An unexpected Error occurred, Sorry!")
+
+file.close()
