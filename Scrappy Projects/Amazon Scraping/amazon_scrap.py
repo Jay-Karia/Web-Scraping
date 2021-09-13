@@ -24,13 +24,12 @@ Lists2 = Div.find_all('div', class_='s-result-item s-asin sg-col-0-of-12 sg-col-
 # Writing into csv
 file = open(f'{product_name}-info.csv', 'w', encoding='UTF-8')
 writer = csv.writer(file)
-writer.writerow(["Sr. No.", "Product Type", "Product Name", "Stars", "Price"])
+writer.writerow(["Sr. No.", "Product Type", "Product Name", "Product URL", "Stars", "Price"])
 
 # Getting the information
 try:
-    def getInfo(listname):
+    def getInfo(listname, i):
         for index, products in enumerate(listname):
-            index = index + 1
             # Getting the title
             n = products.find('a', class_='a-link-normal a-text-normal')
             names = n.text
@@ -48,14 +47,15 @@ try:
             except:
                 price = "None"
 
-            writer.writerow([index, product_name, names, stars, price])
-
+            # Filtering the data and writing it into .csv file
+            if stars >= "4.0" and price != "None":
+                writer.writerow([index, product_name, names, url, stars, price])
 
     print("File Saved Successfully!")
 except:
     print("An unexpected Error occurred, Sorry!")
 
-getInfo(Lists)
-getInfo(Lists2)
+getInfo(Lists, len(Lists))
+getInfo(Lists2, len(Lists)+len(Lists2))
 
 file.close()
