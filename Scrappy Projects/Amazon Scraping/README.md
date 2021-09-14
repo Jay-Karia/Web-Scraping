@@ -6,7 +6,7 @@ ___
 ### The program will write **Product Type, Product Name, URL, Stars, and Price** of each products found after filtering the data into a **csv file**
 ___
 ## Sections of the Code:
-- Import Required modules (line 1)
+- Importing Required modules (line 1)
 - Getting the product name (line 6)
 - Getting the page (line 10)
 - Getting the closer html (line 18)
