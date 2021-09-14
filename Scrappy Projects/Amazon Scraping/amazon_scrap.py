@@ -1,4 +1,4 @@
-# importing required modules
+# Importing required modules
 from bs4 import BeautifulSoup
 import requests
 import csv
@@ -24,15 +24,14 @@ Lists2 = Div.find_all('div', class_='s-result-item s-asin sg-col-0-of-12 sg-col-
 # Writing into csv
 file = open(f'{product_name}-info.csv', 'w', encoding='UTF-8')
 writer = csv.writer(file)
-writer.writerow(["Sr. No.", "Product Type", "Product Name", "Product URL", "Stars", "Price"])
+writer.writerow(["Product Type", "Product Name", "Product URL", "Stars", "Price"])
 
 # Getting the information
 try:
-    def getInfo(listname, i):
-        for index, products in enumerate(listname):
+    def getInfo(listname):
+        for products in listname:
             # Getting the title
-            n = products.find('a', class_='a-link-normal a-text-normal')
-            names = n.text
+            names = products.find('span', class_='a-size-medium a-color-base a-text-normal').get_text().strip()
 
             # Getting the ratings
             try:
@@ -47,15 +46,20 @@ try:
             except:
                 price = "None"
 
+            # Getting the url of the product
+            title = products.find('h2', class_='a-size-mini a-spacing-none a-color-base s-line-clamp-2')
+            u = title.find('a', class_='a-link-normal a-text-normal')['href']
+            ur = 'https://www.amazon.in' + u
+
             # Filtering the data and writing it into .csv file
             if stars >= "4.0" and price != "None":
-                writer.writerow([index, product_name, names, url, stars, price])
+                writer.writerow([product_name, names, ur, stars, price])
 
     print("File Saved Successfully!")
 except:
     print("An unexpected Error occurred, Sorry!")
 
-getInfo(Lists, len(Lists))
-getInfo(Lists2, len(Lists)+len(Lists2))
+getInfo(Lists)
+getInfo(Lists2)
 
 file.close()
