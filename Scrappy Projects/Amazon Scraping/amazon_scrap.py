@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import csv
 
-# Getting the product
+# Getting the product name
 print("Enter a product name")
 product_name = input()
 
@@ -37,7 +37,7 @@ writer.writerow(["Product Type", "Product Name", "Product URL", "Stars", "Price"
 try:
     def getInfo(listname):
         for products in listname:
-            # Getting the title
+            # Getting the product title
             names = products.find('span', class_='a-size-medium a-color-base a-text-normal').get_text().strip()
 
             # Getting the ratings
