@@ -21,14 +21,14 @@ Lists = Div.find_all('div', {'class': 's-result-item s-asin sg-col-0-of-12 sg-co
 
 Lists2 = Div.find_all('div', class_='s-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 sg-col sg-col-12-of-16')
 
+Lists3 = Div.find_all('div', class_='sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 AdHolder sg-col sg-col-4-of-20')
+
 # Getting the custom filters from the user
 print("\nEnter the minimum stars out of 5.0")
 minStars = input()
 
 print("\nEnter the maximum price")
 maxPrice = input()
-mP = "{:,}".format(maxPrice)
-
 
 # Creating a csv file
 file = open(f'{product_name}-info.csv', 'w', encoding='UTF-8')
@@ -62,7 +62,7 @@ try:
 
             # Filtering the data and writing it into csv file
             if stars >= minStars:
-                if price <= mP:
+                if price <= maxPrice:
                     writer.writerow([product_name, names, ur, stars, price])
 
     print("File Saved Successfully!")
