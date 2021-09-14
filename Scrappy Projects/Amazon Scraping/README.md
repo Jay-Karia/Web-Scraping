@@ -3,9 +3,9 @@
 ___
 ### The program will ask you to give the name of the product, minimum stars and maximum price
 ___
-### The program will scrap the data from amazon.in and...
+### The program will scrap the data from amazon.in and it will write **Product Type, Product Name, URL, Stars, and Price** of each products found after filtering the data
 ___
-### The program will write **Product Type, Product Name, URL, Stars, and Price** of each products found after filtering the data into a **csv file**
+### It will create a new **csv file** and write the filtered data into it
 ___
 ## Sections of the Code:
 - Importing Required modules (line 1)
