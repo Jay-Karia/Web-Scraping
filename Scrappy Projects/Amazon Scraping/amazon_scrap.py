@@ -27,6 +27,8 @@ minStars = input()
 
 print("\nEnter the maximum price")
 maxPrice = input()
+mP = "{:,}".format(maxPrice)
+
 
 # Creating a csv file
 file = open(f'{product_name}-info.csv', 'w', encoding='UTF-8')
@@ -60,7 +62,7 @@ try:
 
             # Filtering the data and writing it into csv file
             if stars >= minStars:
-                if price <= maxPrice:
+                if price <= mP:
                     writer.writerow([product_name, names, ur, stars, price])
 
     print("File Saved Successfully!")
