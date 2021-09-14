@@ -21,7 +21,14 @@ Lists = Div.find_all('div', {'class': 's-result-item s-asin sg-col-0-of-12 sg-co
 
 Lists2 = Div.find_all('div', class_='s-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 sg-col sg-col-12-of-16')
 
-# Writing into csv
+# Getting the custom filters from the user
+print("\nEnter the minimum stars")
+minStars = input()
+
+print("\nEnter the maximum price")
+maxPrice = input()
+
+# Creating a csv file
 file = open(f'{product_name}-info.csv', 'w', encoding='UTF-8')
 writer = csv.writer(file)
 writer.writerow(["Product Type", "Product Name", "Product URL", "Stars", "Price"])
@@ -51,9 +58,10 @@ try:
             u = title.find('a', class_='a-link-normal a-text-normal')['href']
             ur = 'https://www.amazon.in' + u
 
-            # Filtering the data and writing it into .csv file
-            if stars >= "4.0" and price != "None":
-                writer.writerow([product_name, names, ur, stars, price])
+            # Filtering the data and writing it into csv file
+            if stars >= minStars:
+                if price <= maxPrice:
+                    writer.writerow([product_name, names, ur, stars, price])
 
     print("File Saved Successfully!")
 except:
