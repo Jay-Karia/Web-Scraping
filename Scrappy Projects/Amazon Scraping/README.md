@@ -3,6 +3,8 @@
 ___
 ### The program will ask you to give the name of the product, minimum stars and maximum price
 ___
+### The program will scrap the data from amazon.in and...
+___
 ### The program will write **Product Type, Product Name, URL, Stars, and Price** of each products found after filtering the data into a **csv file**
 ___
 ## Sections of the Code:
