@@ -56,9 +56,9 @@ try:
             ur = 'https://www.amazon.in' + u
 
             # Filtering the data and writing it into csv file
-            if stars >= minStars:
-                if price <= maxPrice:
-                    writer.writerow([product_name, names, ur, stars, price])
+            # if stars >= minStars:
+            if price <= maxPrice:
+                writer.writerow([product_name, names, ur, stars, price])
 
     def getInfo2(listname):
         for products in listname:
@@ -68,6 +68,12 @@ try:
             title = products.find('h2', class_='a-size-mini a-spacing-none a-color-base s-line-clamp-2')
             u = title.find('a', class_='a-link-normal a-text-normal')['href']
             ur = 'https://www.amazon.in' + u
+
+            S = products.find('div', class_='a-section a-spacing-none a-spacing-top-micro')
+            s = S.find('div', class_='a-row a-size-small')
+            stars = s.find('span')['aria-label'].split('out of')[0]
+            # Error
+            print(stars)
 
             writer.writerow([product_name, names, ur])
 
