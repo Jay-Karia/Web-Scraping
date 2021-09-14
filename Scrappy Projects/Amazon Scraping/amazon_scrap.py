@@ -17,16 +17,7 @@ soup = BeautifulSoup(source, 'lxml')
 
 # Getting the closer html
 Div = soup.find('div', class_='s-main-slot s-result-list s-search-results sg-row')
-try:
-    Lists = Div.find_all('div', {'class': 's-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 AdHolder sg-col sg-col-12-of-16'})
 
-    Lists2 = Div.find_all('div', class_='s-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 sg-col sg-col-12-of-16')
-
-    Lists3 = Div.find_all('div', class_='sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 AdHolder sg-col sg-col-4-of-20')
-
-    Lists4 = Div.find_all('div', class_='sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 sg-col sg-col-4-of-20')
-except:
-    pass
 # Getting the custom filters from the user
 print("\nEnter the minimum stars out of 5.0")
 minStars = input()
@@ -65,32 +56,34 @@ try:
             ur = 'https://www.amazon.in' + u
 
             # Filtering the data and writing it into csv file
-            writer.writerow([product_name, names, ur, stars, price])
+            if stars >= minStars:
+                if price <= maxPrice:
+                    writer.writerow([product_name, names, ur, stars, price])
 
-    # def getInfo2(listname):
-    #     for products in listname:
-    #         try:
-    #             n = products.find('h5', class_='s-line-clamp-1')
-    #             names = n.find('span', class_='a-size-base-plus a-color-base').get_text().strip()
-    #         except:
-    #             pass
+    def getInfo2(listname):
+        for products in listname:
+            n = products.find('h5', class_='s-line-clamp-1')
+            names = n.find('span', class_='a-size-base-plus a-color-base').get_text().strip()
 
-    #         title = products.find('h2', class_='a-size-mini a-spacing-none a-color-base s-line-clamp-2')
-    #         u = title.find('a', class_='a-link-normal a-text-normal')['href']
-    #         ur = 'https://www.amazon.in' + u
+            title = products.find('h2', class_='a-size-mini a-spacing-none a-color-base s-line-clamp-2')
+            u = title.find('a', class_='a-link-normal a-text-normal')['href']
+            ur = 'https://www.amazon.in' + u
 
-    #         # TODO: Ratings reamaining
+            writer.writerow([product_name, names, ur])
 
-    #         writer.writerow([product_name, names, ur])
-
-    # print("File Saved Successfully!")
+    print("File Saved Successfully!")
 except:
     print("An unexpected Error occurred, Sorry!")
 
+# try:
+Lists = Div.find_all('div', {'class': 's-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 AdHolder sg-col sg-col-12-of-16'})
+Lists2 = Div.find_all('div', class_='s-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 sg-col sg-col-12-of-16')
 getInfo(Lists)
 getInfo(Lists2)
-
-# getInfo2(Lists3)
-# getInfo2(Lists4)
+# except:
+Lists3 = Div.find_all('div', class_='sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 AdHolder sg-col sg-col-4-of-20')
+Lists4 = Div.find_all('div', class_='sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 sg-col sg-col-4-of-20')
+getInfo2(Lists3)
+getInfo2(Lists4)
 
 file.close()
