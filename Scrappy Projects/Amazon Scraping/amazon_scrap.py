@@ -22,7 +22,7 @@ Lists = Div.find_all('div', {'class': 's-result-item s-asin sg-col-0-of-12 sg-co
 Lists2 = Div.find_all('div', class_='s-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 sg-col sg-col-12-of-16')
 
 # Getting the custom filters from the user
-print("\nEnter the minimum stars")
+print("\nEnter the minimum stars out of 5.0")
 minStars = input()
 
 print("\nEnter the maximum price")
