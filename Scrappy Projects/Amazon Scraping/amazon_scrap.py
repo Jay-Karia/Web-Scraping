@@ -4,7 +4,6 @@ import csv
 
 print("Enter a product name")
 p_name = input()
-
 product_name = p_name.replace(' ', '+')
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
@@ -24,22 +23,20 @@ Lists4 = Div.find_all('div', class_='sg-col-4-of-12 s-result-item s-asin sg-col-
 
 minStars = "None"
 
-def stars(ms):
+def stars():
+    global minStars
     print("\nEnter the minimum ratings out of 5.0")
-    ms = input()
+    minStars = input()
 
-stars(minStars)
-while minStars < "5.0":
+while minStars > "5":
     stars()
 
 print("\nEnter the maximum price")
-maxPrice = 0
-try:
-    maxPrice = int(input())
-    maxPrice = "{:,}".format(maxPrice)
-except:
-    pass
-maxPrice = str(maxPrice)
+maxPrice = input()
+if ',' not in maxPrice:
+    mP = int(maxPrice)
+    mP = "{:,}".format(maxPrice)
+    maxPrice = f"{mP}"
 
 file = open(f'{p_name}-info.csv', 'w', encoding='UTF-8')
 writer = csv.writer(file)
