@@ -19,13 +19,31 @@ soup = BeautifulSoup(source, 'lxml')
 # Getting the closer html
 Div = soup.find('div', class_='s-main-slot s-result-list s-search-results sg-row')
 
+Lists = Div.find_all('div', {'class': 's-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 AdHolder sg-col sg-col-12-of-16'})
+Lists2 = Div.find_all('div', class_='s-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 sg-col sg-col-12-of-16')
+
+Lists3 = Div.find_all('div', class_='sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 AdHolder sg-col sg-col-4-of-20')
+Lists4 = Div.find_all('div', class_='sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 sg-col sg-col-4-of-20')
 # Getting the custom filters from the user
-print("\nEnter the minimum stars out of 5.0")
-minStars = input()
+
+minStars = "None"
+
+def stars(ms):
+    print("\nEnter the minimum ratings out of 5.0")
+    ms = input()
+
+stars(minStars)
+while minStars < "5.0":
+    stars()
 
 print("\nEnter the maximum price")
-maxPrice = input()
-
+maxPrice = 0
+try:
+    maxPrice = int(input())
+    maxPrice = "{:,}".format(maxPrice)
+except:
+    pass
+maxPrice = str(maxPrice)
 # Creating a csv file
 file = open(f'{p_name}-info.csv', 'w', encoding='UTF-8')
 writer = csv.writer(file)
@@ -33,7 +51,7 @@ writer.writerow(["Product Type", "Product Name", "Product URL", "Stars", "Price"
 
 # Getting the information
 try:
-    def getInfo(listname):
+    def getInfo1(listname):
         for products in listname:
             # Getting the product title
             try:
@@ -107,14 +125,9 @@ try:
 except:
     print("An unexpected Error occurred, Sorry!")
 
-# try:
-Lists = Div.find_all('div', {'class': 's-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 AdHolder sg-col sg-col-12-of-16'})
-Lists2 = Div.find_all('div', class_='s-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 sg-col sg-col-12-of-16')
-getInfo(Lists)
-getInfo(Lists2)
-# except:
-Lists3 = Div.find_all('div', class_='sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 AdHolder sg-col sg-col-4-of-20')
-Lists4 = Div.find_all('div', class_='sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 sg-col sg-col-4-of-20')
+getInfo1(Lists)
+getInfo1(Lists2)
+
 getInfo2(Lists3)
 getInfo2(Lists4)
 
