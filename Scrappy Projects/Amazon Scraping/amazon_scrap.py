@@ -33,8 +33,9 @@ while minStars > "5":
 
 print("\nEnter the maximum price")
 maxPrice = input()
+intPrice = int(maxPrice)
 if ',' not in maxPrice:
-    mP = "{:,}".format(int(maxPrice))
+    mP = "{:,}".format(intPrice)
     maxPrice = f"{mP}"
 
 file = open(f'{p_name}-info.csv', 'w', encoding='UTF-8')
