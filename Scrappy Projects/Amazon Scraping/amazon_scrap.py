@@ -32,15 +32,16 @@ while minStars > "5":
     stars()
 
 print("\nEnter the maximum price")
-maxPrice = input()
-intPrice = int(maxPrice)
-if ',' not in maxPrice:
+mP = input()
+intPrice = int(mP.replace(',', ''))
+if ',' not in mP:
     mP = "{:,}".format(intPrice)
-    maxPrice = f"{mP}"
+    mP = f"{mP}"
+maxPrice = int(mP.replace(',', ''))
 
 file = open(f'{p_name}-info.csv', 'w', encoding='UTF-8')
 writer = csv.writer(file)
-writer.writerow(["Product Type", "Product Name", "Product URL", "Stars", "Price"])
+writer.writerow(["Product Type", "Product Name", "Product URL", "Ratings", "Price"])
 
 try:
     def getInfo1(listname):
@@ -65,8 +66,10 @@ try:
             u = title.find('a', class_='a-link-normal a-text-normal')['href']
             ur = 'https://www.amazon.in' + u
 
-            if stars >= minStars:
-                if price <= maxPrice:
+            priceInt = int(price.replace(',', ''))
+
+            if priceInt < maxPrice:
+                if stars > minStars:
                     writer.writerow([p_name, names, ur, stars, price])
 
     def getInfo2(listname):
@@ -104,8 +107,10 @@ try:
             except:
                 price = "None"
 
-            if stars >= minStars:
-                if price <= maxPrice:
+            priceInt = int(price.replace(',', '').replace('None', '0'))
+
+            if priceInt < maxPrice:
+                if stars > minStars:
                     writer.writerow([p_name, names, ur, stars, price])
 
     print("File Saved Successfully!")
