@@ -5,8 +5,9 @@ import csv
 
 # Getting the product name
 print("Enter a product name")
-product_name = input()
+p_name = input()
 
+product_name = p_name.replace(' ', '+')
 # Getting the page
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
 
@@ -26,7 +27,7 @@ print("\nEnter the maximum price")
 maxPrice = input()
 
 # Creating a csv file
-file = open(f'{product_name}-info.csv', 'w', encoding='UTF-8')
+file = open(f'{p_name}-info.csv', 'w', encoding='UTF-8')
 writer = csv.writer(file)
 writer.writerow(["Product Type", "Product Name", "Product URL", "Stars", "Price"])
 
@@ -35,7 +36,10 @@ try:
     def getInfo(listname):
         for products in listname:
             # Getting the product title
-            names = products.find('span', class_='a-size-medium a-color-base a-text-normal').get_text().strip()
+            try:
+                names = products.find('span', class_='a-size-medium a-color-base a-text-normal').get_text().strip()
+            except:
+                names = "None"
 
             # Getting the ratings
             try:
@@ -56,18 +60,33 @@ try:
             ur = 'https://www.amazon.in' + u
 
             # Filtering the data and writing it into csv file
-            # if stars >= minStars:
-            if price <= maxPrice:
-                writer.writerow([product_name, names, ur, stars, price])
+            if stars >= minStars:
+                if price <= maxPrice:
+                    writer.writerow([p_name, names, ur, stars, price])
 
     def getInfo2(listname):
         for products in listname:
-            n = products.find('h5', class_='s-line-clamp-1')
-            names = n.find('span', class_='a-size-base-plus a-color-base').get_text().strip()
+            try:
+                names = products.find('h5', class_='s-line-clamp-1').get_text().strip()
+            except:
+                try:
+                    names = products.find('span', class_='a-size-base-plus a-color-base a-text-normal').get_text().strip()
+                except:
+                    names = "None"
 
-            title = products.find('h2', class_='a-size-mini a-spacing-none a-color-base s-line-clamp-2')
-            u = title.find('a', class_='a-link-normal a-text-normal')['href']
-            ur = 'https://www.amazon.in' + u
+            try:
+                title = products.find('h2', class_='a-size-mini a-spacing-none a-color-base s-line-clamp-2')
+                u = title.find('a', class_='a-link-normal a-text-normal')['href']
+                ur = 'https://www.amazon.in' + u
+            except:
+                try:
+                    title = products.find('h2', class_='a-size-mini a-spacing-none a-color-base s-line-clamp-4')
+                    u = title = title.find('a', class_='a-link-normal a-text-normal')['href']
+                    ur = 'https://www.amazon.in' + u
+                except:
+                    title = "None"
+                    u = "None"
+                    ur = "None"
 
             try:
                 s = products.find('div', class_='a-row a-size-small')
@@ -75,7 +94,14 @@ try:
             except:
                 stars = "None"
 
-            writer.writerow([product_name, names, ur, stars])
+            try:
+                price = products.find('span', class_='a-price-whole').get_text().strip()
+            except:
+                price = "None"
+
+            if stars >= minStars:
+                if price <= maxPrice:
+                    writer.writerow([p_name, names, ur, stars, price])
 
     print("File Saved Successfully!")
 except:
