@@ -69,13 +69,13 @@ try:
             u = title.find('a', class_='a-link-normal a-text-normal')['href']
             ur = 'https://www.amazon.in' + u
 
-            S = products.find('div', class_='a-section a-spacing-none a-spacing-top-micro')
-            s = S.find('div', class_='a-row a-size-small')
-            stars = s.find('span')['aria-label'].split('out of')[0]
-            # Error
-            print(stars)
+            try:
+                s = products.find('div', class_='a-row a-size-small')
+                stars = s.find('span')['aria-label'].split('out of')[0]
+            except:
+                stars = "None"
 
-            writer.writerow([product_name, names, ur])
+            writer.writerow([product_name, names, ur, stars])
 
     print("File Saved Successfully!")
 except:
