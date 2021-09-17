@@ -43,7 +43,8 @@ def HourlyForecast():
     mainDiv = soup.find('div', class_='HourlyForecast--DisclosureList--3CdxR')
     Lists = mainDiv.find_all('details', class_='DaypartDetails--DayPartDetail--1up3g Disclosure--themeList--25Q0H')
 
-    for items in Lists:
-        pass
+    for index,items in enumerate(Lists):
+        time = t.find('h2', class_='DetailsSummary--daypartName--2FBp2').get_text().strip()
+        print(time)
 
 HourlyForecast()
