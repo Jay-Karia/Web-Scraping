@@ -72,9 +72,33 @@ def WeekendForecast():
     html = requests.get(url).text
     soup = BeautifulSoup(html, 'html.parser')
 
+    file = open('Weekend-Forecast.csv', 'w')
+    csvWriter = csv.writer(file)
+
+    csvWriter.writerow(["Sr no.", "Week", "Day", "Min Temp", "Max Temp", "Weather", "Rain %", "Wind Speed"])
+
     mainDiv = soup.find('section', class_='card Card--card--HiWPW WeekendForecast--Card--XkPCS')
-    weekend = mainDiv.find('div', class_='WeekendForecast--DisclosureList--2hLEm')
-    Lists = weekend.find_all('details', class_='Disclosure--themeList--25Q0H')
+    weekend = mainDiv.find_all('div', class_='WeekendForecast--DisclosureList--2hLEm')
+
+    for index, items in enumerate(weekend):
+        index = index + 1
+        week = items.h3.get_text().strip()
+        print(week)
+        # Lists = weekend.find_all('details', class_='Disclosure--themeList--25Q0H')
+
+        # for i in Lists:
+        #     day = i.find('h2', class_='DetailsSummary--daypartName--2FBp2').get_text().strip()
+        #     MinTemp = i.find('span', class_='DetailsSummary--lowTempValue--3H-7I').get_text().strip()
+        #     MaxTemp = i.find('span', class_='DetailsSummary--highTempValue--3Oteu').get_text().strip()
+        #     weather = i.find('span', class_='DetailsSummary--extendedData--365A_').get_text().strip()
+        #     rainPer = i.find('div', class_='DetailsSummary--precip--1ecIJ').span.get_text().strip()
+        #     windSpeed = i.find('span', class_='Wind--windWrapper--3aqXJ undefined').get_text().strip().split(' ')[1]+' km/h'
+
+        # csvWriter.writerow([index, week, day, MinTemp, MaxTemp, weather, rainPer, windSpeed])
+
+    # weekend2 = soup.find('div', class_='WeekendForecast--DisclosureList--2hLEm')
+
+    file.close()
 
 option = ["Daily Forecast", "Hourly Forecast", "Weekend Forecast"]
 
