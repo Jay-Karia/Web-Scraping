@@ -102,40 +102,23 @@ def WeekendForecast():
     except:
         print("An unexpected Error Occurred, Sorry!")
 
-def MonthlyForecast():
-    url = 'https://weather.com/en-IN/weather/monthly/l/efdc1f9159c1023991dbc88aa4fd4592aa13eec53c0937a0e793693ac7bb82c3'
-    html = requests.get(url).text
-    soup = BeautifulSoup(html, 'html.parser')
-    print(url)
+option = ["Daily Forecast", "Hourly Forecast", "Weekend Forecast"]
 
-    mainDiv = soup.find('div', class_='Calendar--gridWrapper--1oa1f')
-    Lists = mainDiv.find_all('button', class_='CalendarDateCell--dayCell--2s4Tp CalendarDateCell--firstCell--1FnOi CalendarDateCell--firstRow--1_xoa Button--default--3zkvy')
+print(f"\nSelect: \n1) {option[0]}\n2) {option[1]}\n3) {option[2]}")
 
-    for items in Lists:
-        date = items.span.get_text().strip()
-        print(date)
+valid = True
 
-option = ["Daily Forecast", "Hourly Forecast", "Weekend Forecast", "Monthly Forecast"]
-
-# print(f"\nSelect: \n1) {option[0]}\n2) {option[1]}\n3) {option[2]}\n4) {option[3]}")
-
-# valid = True
-
-# while valid == True:
-#     sel = input()
-#     if sel == "1":
-#         DailyForecast()
-#         valid = False
-#     elif sel == "2":
-#         HourlyForecast()
-#         valid = False
-#     elif sel == "3":
-#         WeekendForecast()
-#         valid = False
-#     elif sel == "4":
-#         MonthlyForecast()
-#         valid = False
-#     else:
-#         print("Please Select a valid option")
-#         valid = True
-MonthlyForecast()
+while valid == True:
+    sel = input()
+    if sel == "1":
+        DailyForecast()
+        valid = False
+    elif sel == "2":
+        HourlyForecast()
+        valid = False
+    elif sel == "3":
+        WeekendForecast()
+        valid = False
+    else:
+        print("Please Select a valid option")
+        valid = True
