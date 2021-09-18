@@ -68,22 +68,74 @@ def HourlyForecast():
         print("An unexpected Error occurred, Sorry!")
 
 def WeekendForecast():
-    url = 'https://weather.com/en-IN/weather/weekend/l/efdc1f9159c1023991dbc88aa4fd4592aa13eec53c0937a0e793693ac7bb82c3'
+    try:
+        url = 'https://weather.com/en-IN/weather/tenday/l/efdc1f9159c1023991dbc88aa4fd4592aa13eec53c0937a0e793693ac7bb82c3#detailIndex5'
+        html = requests.get(url).text
+        soup = BeautifulSoup(html, 'html.parser')
+
+        file = open('Weekend-Forecast.csv', 'w')
+        csvWriter = csv.writer(file)
+
+        csvWriter.writerow(["Day", "Max Temp", "Min Temp", "Weather", "Rain %", "Wind Speed"])
+
+        mainDiv = soup.find('div', class_='DailyForecast--DisclosureList--msYIJ')
+        Lists = mainDiv.find_all('details', class_='Disclosure--themeList--25Q0H')
+
+        for items in Lists:
+            day = items.find('h2', class_='DetailsSummary--daypartName--2FBp2').get_text().strip()
+            maxTemp = items.find('span', class_='DetailsSummary--highTempValue--3Oteu').get_text().strip()
+            minTemp = items.find('span', class_='DetailsSummary--lowTempValue--3H-7I').get_text().strip()
+            weather = items.find('div', class_='DetailsSummary--condition--24gQw').span.get_text().strip()
+            rainPer = items.find('div', class_='DetailsSummary--precip--1ecIJ').span.get_text().strip()
+            wind = items.find('span', class_='Wind--windWrapper--3aqXJ undefined').get_text().strip().split(" ")[1]+" km\h"
+
+            if 'Fri' in day:
+                csvWriter.writerow([day, maxTemp, minTemp, weather, rainPer, wind])
+            if 'Sat' in day:
+                csvWriter.writerow([day, maxTemp, minTemp, weather, rainPer, wind])
+            if 'Sun' in day:
+                csvWriter.writerow([day, maxTemp, minTemp, weather, rainPer, wind])
+
+        file.close()
+        print("File Saved Successfully!!!")
+
+    except:
+        print("An unexpected Error Occurred, Sorry!")
+
+def MonthlyForecast():
+    url = 'https://weather.com/en-IN/weather/monthly/l/efdc1f9159c1023991dbc88aa4fd4592aa13eec53c0937a0e793693ac7bb82c3'
     html = requests.get(url).text
     soup = BeautifulSoup(html, 'html.parser')
+    print(url)
 
-    file = open('Weekend-Forecast.csv', 'w')
-    csvWriter = csv.writer(file)
+    mainDiv = soup.find('div', class_='Calendar--gridWrapper--1oa1f')
+    Lists = mainDiv.find_all('button', class_='CalendarDateCell--dayCell--2s4Tp CalendarDateCell--firstCell--1FnOi CalendarDateCell--firstRow--1_xoa Button--default--3zkvy')
 
-    csvWriter.writerow(["Sr no.", "Week", "Day", "Min Temp", "Max Temp", "Weather", "Rain %", "Wind Speed"])
+    for items in Lists:
+        date = items.span.get_text().strip()
+        print(date)
 
-option = ["Daily Forecast", "Hourly Forecast", "Weekend Forecast"]
+option = ["Daily Forecast", "Hourly Forecast", "Weekend Forecast", "Monthly Forecast"]
 
-# print(f"Select: \n1) {option[0]}\n2) {option[1]}")
-# sel = input()
+# print(f"\nSelect: \n1) {option[0]}\n2) {option[1]}\n3) {option[2]}\n4) {option[3]}")
 
-# if sel == "1":
-#     DailyForecast()
-# elif sel == "2":
-#     HourlyForecast()
-WeekendForecast()
+# valid = True
+
+# while valid == True:
+#     sel = input()
+#     if sel == "1":
+#         DailyForecast()
+#         valid = False
+#     elif sel == "2":
+#         HourlyForecast()
+#         valid = False
+#     elif sel == "3":
+#         WeekendForecast()
+#         valid = False
+#     elif sel == "4":
+#         MonthlyForecast()
+#         valid = False
+#     else:
+#         print("Please Select a valid option")
+#         valid = True
+MonthlyForecast()
