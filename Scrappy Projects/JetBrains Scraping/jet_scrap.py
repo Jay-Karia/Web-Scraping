@@ -9,8 +9,6 @@ mainDiv = driver.find_element_by_xpath('//*[@id="products-page"]/div/div[1]/div[
 items = mainDiv.find_elements_by_tag_name('div')
 
 try:
-    for item in driver:
-        product_name = item.find_elements(by=By.CLASS_NAME, value='wt-link wt-link_hardness_hard wt-link_theme_light').text
-        print(product_name)
+    print(mainDiv.text)
 finally:
     driver.close()
