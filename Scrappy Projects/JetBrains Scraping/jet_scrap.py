@@ -1,13 +1,13 @@
 from selenium import webdriver
 import csv
 
-driver = webdriver.Chrome(executable_path='C:\\Programming\\Chrome WebDriver\\app\\chromedriver')
+driver = webdriver.Chrome(executable_path='C:\Program Files (x86)\chromedriver_win32 (2)\chromedriver.exe')
 
 print("Enter your language")
 language = input()
 lang = language.lower()
 
-if lang == 'c++' or lang == 'csharp' or lang == 'c#' or lang == 'c':
+if lang == 'c++' or lang == 'csharp' or lang == 'c#' or lang == 'c' or lang == 'c sharp':
     lang = 'cpp'
 
 if 'javascript' in lang or 'typescript' in lang:
