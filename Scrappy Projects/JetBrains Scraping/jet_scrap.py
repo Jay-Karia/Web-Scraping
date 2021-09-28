@@ -1,17 +1,16 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 
-driver = webdriver.Chrome(executable_path='C:\Program Files (x86)\chromedriver_win32 (2)\chromedriver.exe')
-
-print("Enter the language to get specific products")
-# languages = ["C/C++", "C#", "Dart", "DSL", "F#", "Go", "Groovy", "HTML", "Java", "JavaScript, TypeScript", "Kotlin", "Objective-C", "PHP", "Python", "R", "Ruby", "Rust", "Scala", "SQL", "Swift", "VB.NET"]
-# lang = input()
-lang = ""
+driver = webdriver.Chrome(executable_path='C:\\Programming\\Chrome WebDriver\\app\\chromedriver')
 url = 'https://www.jetbrains.com/products/'
-
 driver.get(url)
 
 mainDiv = driver.find_element_by_xpath('//*[@id="products-page"]/div/div[1]/div[1]')
-items = mainDiv.find_element_by_xpath('//*[@id="products-page"]/div/div[1]/div[1]/div')
+items = mainDiv.find_elements_by_tag_name('div')
 
-for item in items:
-    pass
+try:
+    for item in driver:
+        product_name = item.find_elements(by=By.CLASS_NAME, value='wt-link wt-link_hardness_hard wt-link_theme_light').text
+        print(product_name)
+finally:
+    driver.close()
