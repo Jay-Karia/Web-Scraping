@@ -47,7 +47,7 @@ def getInfo():
 
         print("\nFile Saved Successfully!!")
     except:
-        print("An Error Occurred ")
+        print("\nAn Error Occurred ")
 
     finally:
         driver.close()

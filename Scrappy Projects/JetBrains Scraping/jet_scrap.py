@@ -1,8 +1,6 @@
 from selenium import webdriver
 import csv
 
-driver = webdriver.Chrome(executable_path='C:\\Programming\\Chrome WebDriver\\app\\chromedriver')
-
 print("Enter your language")
 language = input()
 lang = language.lower()
@@ -14,13 +12,24 @@ if 'javascript' in lang or 'typescript' in lang:
     lang = 'js'
 
 if 'objective-c' in lang:
-    lang = 'obc'
+    lang = 'objc'
 
 if 'vb.net' in lang:
     lang = 'vbnet'
 
+if lang == 'r':
+    lang = 'r-lang'
+
+if lang == 'f#' or lang == 'f sharp':
+    lang = 'fsharp'
+
+if lang == 'php':
+    lang = 'php-lang'
+
 url = f'https://www.jetbrains.com/products/#lang={lang}'
-print(url)
+print(f"\n{url}")
+
+driver = webdriver.Chrome(executable_path='C:\\Programming\\Chrome WebDriver\\app\\chromedriver')
 driver.get(url)
 
 mainDiv = driver.find_element_by_xpath('//*[@id="products-page"]/div/div[1]/div[1]')
@@ -43,9 +52,9 @@ try:
 
         writer.writerow([index, language, product_name, url, version, description])
 
-    print("File Saved Successfully!!!")
+    print("\nFile Saved Successfully!!!")
 except:
-    print("An error occurred, Sorry!")
+    print("\nAn error occurred, Sorry!")
 
 finally:
     driver.close()
