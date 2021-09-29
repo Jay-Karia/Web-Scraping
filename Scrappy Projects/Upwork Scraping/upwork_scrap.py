@@ -15,8 +15,13 @@ try:
         profession = item.find_element(by=By.CLASS_NAME, value='freelancer-title').text
         location = item.find_element(by=By.CLASS_NAME, value='vertical-align-middle').text
         r = item.find_element_by_class_name('profile-stats')
-        rate = item.find_element(by=By.TAG_NAME, value='strong').text+'/hr'
-        print(rate)
+        rate = r.find_element(by=By.TAG_NAME, value='strong').text+'/hr'
+        try:
+            e = item.find_element(by=By.CLASS_NAME, value='grid-col-2')
+            earned = e.find_element_by_tag_name('p').text
+        except:
+            earned = "None"
+        print(earned)
 
 finally:
     driver.close()
