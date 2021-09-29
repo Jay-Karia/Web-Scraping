@@ -2,24 +2,26 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import csv
 
-driver = webdriver.Chrome(executable_path='C:\\Programming\\Chrome WebDriver\\app\\chromedriver')
 
 print("Enter Work")
 work = input()
 work.replace(' ', '%20')
 url1 = f'https://www.upwork.com/search/profiles/?q={work}'
 
+driver = webdriver.Chrome(executable_path='C:\\Programming\\Chrome WebDriver\\app\\chromedriver')
+
 file = open(f"Upwork-{work}.csv", "w", encoding='utf-8')
 writer = csv.writer(file)
 
-writer.writerow(["Sr. no.", "Freelancer Name", "Profession", "Location", "Rate", "Earned", "Job Success", "Description"])
+writer.writerow(["Sr. no.", "Work", "Freelancer Name", "Profession", "Location", "Rate", "Earned", "Job Success", "Description"])
 
-def getInfo(url):
-    driver.get(url)
-
-    mainDiv = driver.find_element_by_class_name('mt-md-0')
-    items = mainDiv.find_elements_by_class_name('up-card-section')
+def getInfo():
     try:
+        driver.get(url1)
+
+        mainDiv = driver.find_element_by_class_name('mt-md-0')
+        items = mainDiv.find_elements_by_class_name('up-card-section')
+
         for i, item in enumerate(items):
             i = i + 1
             try:
@@ -41,11 +43,15 @@ def getInfo(url):
                 success = "None"
             description = item.find_element(by=By.CLASS_NAME, value='clamped').text
 
-            writer.writerow([i, person_name, profession, location, rate, earned, success, description])
+            writer.writerow([i, work, person_name, profession, location, rate, earned, success, description])
+
+        print("\nFile Saved Successfully!!")
+    except:
+        print("An Error Occurred ")
 
     finally:
         driver.close()
 
-getInfo(url1)
+getInfo()
 
 file.close()
