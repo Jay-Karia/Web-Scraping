@@ -1,7 +1,7 @@
 from selenium import webdriver
 import csv
 
-driver = webdriver.Chrome(executable_path='C:\Program Files (x86)\chromedriver_win32 (2)\chromedriver.exe')
+driver = webdriver.Chrome(executable_path='C:\\Programming\\Chrome WebDriver\\app\\chromedriver')
 
 print("Enter your language")
 language = input()
