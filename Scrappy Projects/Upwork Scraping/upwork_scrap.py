@@ -4,16 +4,18 @@ import csv
 
 driver = webdriver.Chrome(executable_path='C:\\Programming\\Chrome WebDriver\\app\\chromedriver')
 
-url1 = 'https://www.upwork.com/search/profiles/?q=python'
+print("Enter Work")
+work = input()
+work.replace(' ', '%20')
+url1 = f'https://www.upwork.com/search/profiles/?q={work}'
 
-file = open("Upwork-Python.csv", "w", encoding='utf-8')
+file = open(f"Upwork-{work}.csv", "w", encoding='utf-8')
 writer = csv.writer(file)
 
 writer.writerow(["Sr. no.", "Freelancer Name", "Profession", "Location", "Rate", "Earned", "Job Success", "Description"])
 
 def getInfo(url):
     driver.get(url)
-    # driver.get(url2)
 
     mainDiv = driver.find_element_by_class_name('mt-md-0')
     items = mainDiv.find_elements_by_class_name('up-card-section')
