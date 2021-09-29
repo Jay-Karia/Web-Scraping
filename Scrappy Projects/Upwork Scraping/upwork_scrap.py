@@ -1,23 +1,29 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import csv
 
 driver = webdriver.Chrome(executable_path='C:\\Programming\\Chrome WebDriver\\app\\chromedriver')
 
 url1 = 'https://www.upwork.com/search/profiles/?q=python'
-url2 = 'https://www.upwork.com/search/profiles/?page=2&q=python'
 
-i = 0
+file = open("Upwork-Python.csv", "w", encoding='utf-8')
+writer = csv.writer(file)
+
+writer.writerow(["Sr. no.", "Freelancer Name", "Profession", "Location", "Rate", "Earned", "Job Success", "Description"])
 
 def getInfo(url):
-    global i
     driver.get(url)
+    # driver.get(url2)
 
     mainDiv = driver.find_element_by_class_name('mt-md-0')
     items = mainDiv.find_elements_by_class_name('up-card-section')
     try:
         for i, item in enumerate(items):
             i = i + 1
-            person_name = item.find_element_by_class_name('identity-name').text
+            try:
+                person_name = item.find_element_by_class_name('identity-name').text
+            except:
+                person_name = "None"
             profession = item.find_element(by=By.CLASS_NAME, value='freelancer-title').text
             location = item.find_element(by=By.CLASS_NAME, value='vertical-align-middle').text
             r = item.find_element_by_class_name('profile-stats')
@@ -27,13 +33,17 @@ def getInfo(url):
                 earned = e.find_element_by_tag_name('p').text
             except:
                 earned = "None"
-            success = item.find_element_by_class_name('up-job-success-text').text.split(' ')[0]
+            try:
+                success = item.find_element_by_class_name('up-job-success-text').text.split(' ')[0]
+            except:
+                success = "None"
             description = item.find_element(by=By.CLASS_NAME, value='clamped').text
 
-            print(i)
+            writer.writerow([i, person_name, profession, location, rate, earned, success, description])
 
     finally:
         driver.close()
 
 getInfo(url1)
-getInfo(url2)
+
+file.close()
