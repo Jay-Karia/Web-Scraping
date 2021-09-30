@@ -1,5 +1,5 @@
 # Upwork Scraping
-## This is a Python Web Scraper made by [Jay](https:/github.com/Jay-Karia)
+## This is a Python Web Scraper made by [Jay](https:/Jay-Karia)
 ___
 ## Modules Used
 ![](https://logodix.com/logo/1122051.png) 
