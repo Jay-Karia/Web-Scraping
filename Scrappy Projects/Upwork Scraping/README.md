@@ -2,7 +2,7 @@
 ## This is a Python Web Scraper made by [Jay](https:/github.com/Jay-Karia)
 ___
 ## Modules Used
-![](https://www.zivtech.com/sites/default/files/2017-05/logo__selenium--white.png) 
+![](https://logodix.com/logo/1122051.png) 
 ___
 ## This python program will scrap Upwork.com
 ## On entering the work inside the program, it will write the list of top 10 freelancers available on Upwork for your particular Work
